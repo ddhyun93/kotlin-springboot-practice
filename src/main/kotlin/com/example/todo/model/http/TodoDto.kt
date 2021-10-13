@@ -2,6 +2,7 @@ package com.example.todo.model.http
 
 import com.example.todo.annotation.StringFormatDateTime
 import com.example.todo.database.Todo
+import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,13 +11,33 @@ import javax.validation.constraints.NotBlank
 
 
 data class TodoDto(
+    @field:ApiModelProperty(
+        value = "DB INDEX",
+        example = "1",
+        required = false
+    )
     var index: Int?=null,
 
+    @field:ApiModelProperty(
+        value = "일정명",
+        example = "밥먹기",
+        required = true
+    )
     @field:NotBlank
     var title: String?=null,
 
+    @field:ApiModelProperty(
+        value = "일정설명",
+        example = "단백질 많이",
+        required = false
+    )
     var description: String?=null,
 
+    @field:ApiModelProperty(
+        value = "시간",
+        example = "2020-01-01 00:00:00",
+        required = true
+    )
     @field:NotBlank
     @field:StringFormatDateTime
     // yyyy-MM-dd HH:mm:ss
