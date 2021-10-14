@@ -2,6 +2,8 @@ package com.example.todo.repository
 
 import com.example.todo.config.AppConfig
 import com.example.todo.database.Todo
+import com.example.todo.model.http.TodoDto
+import com.example.todo.model.http.convertTodoDto
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -113,5 +115,21 @@ class TodoRepositoryTest {
         Assertions.assertEquals(insertTodo?.index, result?.index)
         Assertions.assertEquals(insertTodo?.title, "업데이트 일정")
         Assertions.assertEquals(insertTodo?.description, "업데이트 테스트")
+    }
+
+    @Test
+    fun createTest(){
+        val todo = Todo().apply {
+            this.title = "테스트"
+            this.description = "테스트입니다."
+            this.schedule = LocalDateTime.now()
+        }
+        val insertTodo = todoRepositoryImpl.save(todo)
+        val lastOne = todoRepositoryImpl.findAll().last()
+        Assertions.assertNotNull(lastOne)
+        Assertions.assertEquals(insertTodo?.title, lastOne.title)
+        Assertions.assertEquals(insertTodo?.description, lastOne.description)
+        Assertions.assertEquals(insertTodo?.schedule, lastOne.schedule)
+
     }
 }

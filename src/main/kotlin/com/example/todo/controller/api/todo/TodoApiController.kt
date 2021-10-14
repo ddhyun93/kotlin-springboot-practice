@@ -41,8 +41,16 @@ class TodoApiController (val todoService: TodoService) {
 
     // C
     @PostMapping("")
-    fun create(@Valid @RequestBody todoDto: TodoDto): TodoDto? {
-        return todoService.create(todoDto)
+    fun create(@Valid @RequestBody todoDto: TodoDto): ResponseEntity<TodoDto> {
+        val todoObj: TodoDto? = todoService.create(todoDto)
+        // Body에 index가 없으면 -> create -> 201
+        if (todoDto.index == null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(todoObj)
+        } else
+        // Body에 index가 있으면 -> Ok -> 200
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(todoObj)
+        }
     }
 
     // U
